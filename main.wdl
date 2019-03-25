@@ -211,7 +211,7 @@ task zip_results {
     }
 
     runtime {
-        docker: "docker.io/blawney/star_rnaseq:v0.0.1"
+        docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.1"
         cpu: 2
         memory: "6 G"
         disks: "local-disk " + disk_size + " HDD"
