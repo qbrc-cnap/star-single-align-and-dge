@@ -27,7 +27,7 @@ cbPalette <- c( "#E69F00", "#56B4E9", "#009E73",
 
 # Read in results and store in results$dge, results$norm.mtx, and results$annotations
 matrix_dt=read.table(NORM_COUNTS_FILE, header=T, row.names = 1, sep="\t")
-dge_results=read.table(DESEQ_OUTPUT_FILE, header=T, sep="\t")
+dge_results=read.table(DESEQ_OUTPUT_FILE, header=T, sep="\t", stringsAsFactors = F)
 annotations <- read.table(SAMPLE_ANNOTATION_FILE,
   sep='\t',
   header = F,
