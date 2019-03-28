@@ -1,14 +1,14 @@
 {
-  "PairedRnaSeqAndDgeWorkflow.output_zip_name": "String",
-  "PairedRnaSeqAndDgeWorkflow.git_commit_hash": "String",
-  "PairedRnaSeqAndDgeWorkflow.experimental_conditions": "Array[String]",
-  "PairedRnaSeqAndDgeWorkflow.genome": "String",
-  "PairedRnaSeqAndDgeWorkflow.git_repo_url": "String",
-  "PairedRnaSeqAndDgeWorkflow.base_conditions": "Array[String]",
-  "PairedRnaSeqAndDgeWorkflow.gtf": "File",
-  "PairedRnaSeqAndDgeWorkflow.sample_annotations": "File",
-  "PairedRnaSeqAndDgeWorkflow.bed_annotations": "File",
-  "PairedRnaSeqAndDgeWorkflow.r1_files": "Array[File]",
-  "PairedRnaSeqAndDgeWorkflow.star_index_path": "File"
+  "SingleEndRnaSeqAndDgeWorkflow.output_zip_name": "String",
+  "SingleEndRnaSeqAndDgeWorkflow.git_commit_hash": "String",
+  "SingleEndRnaSeqAndDgeWorkflow.experimental_conditions": "Array[String]",
+  "SingleEndRnaSeqAndDgeWorkflow.genome": "String",
+  "SingleEndRnaSeqAndDgeWorkflow.git_repo_url": "String",
+  "SingleEndRnaSeqAndDgeWorkflow.base_conditions": "Array[String]",
+  "SingleEndRnaSeqAndDgeWorkflow.gtf": "File",
+  "SingleEndRnaSeqAndDgeWorkflow.sample_annotations": "File",
+  "SingleEndRnaSeqAndDgeWorkflow.bed_annotations": "File",
+  "SingleEndRnaSeqAndDgeWorkflow.r1_files": "Array[File]",
+  "SingleEndRnaSeqAndDgeWorkflow.star_index_path": "File"
 }
 
