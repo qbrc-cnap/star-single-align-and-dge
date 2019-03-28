@@ -17,7 +17,6 @@ ANNOTATIONS = 'annotations_file'
 DESEQ_OUTPUT = 'deseq2_output_filename'
 CFG = 'config_vars'
 R1 = 'r1_files'
-R2 = 'r2_files'
 GIT_REPO = 'git_repo'
 GIT_COMMIT = 'git_commit'
 GENOME = 'genome'
@@ -30,11 +29,9 @@ class InputDisplay(object):
     '''
     A simple object to carry info to the markdown report.
     '''
-    def __init__(self, sample_name, r1, r2):
+    def __init__(self, sample_name, r1):
         self.sample_name = sample_name
         self.r1 = r1
-        self.r2 = r2
-
 
 class AnnotationDisplay(object):
     '''
@@ -164,7 +161,6 @@ def parse_input():
     parser.add_argument('-o', required=True, dest=OUTPUT)
     parser.add_argument('-j', required=True, dest=CFG)
     parser.add_argument('-r1', required=True, dest=R1, nargs='+')
-    parser.add_argument('-r2', required=True, dest=R2, nargs='+')
 
     args = parser.parse_args()
     return vars(args)
@@ -202,11 +198,10 @@ if __name__ == '__main__':
 
     # alter how the files are displayed:
     r1_files = arg_dict[R1]
-    r2_files = arg_dict[R2]
     samples = [os.path.basename(x)[:-len('_R1.fastq.gz')] for x in r1_files]
     file_display = []
-    for r1, r2, s in zip(r1_files, r2_files, samples):
-        ipd = InputDisplay(s, r1, r2)
+    for r1, s in zip(r1_files, samples):
+        ipd = InputDisplay(s, r1)
         file_display.append(ipd)
 
     # get info about the contrasts performed:
