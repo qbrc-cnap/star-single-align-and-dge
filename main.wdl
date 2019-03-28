@@ -142,9 +142,9 @@ workflow SingleEndRnaSeqAndDgeWorkflow{
     }
 
     meta {
-        workflow_title : "Paired-end RNA-Seq basic differential expression"
-        workflow_short_description : "For determining differential expression from a basic paired-end RNA-seq experiment"
-        workflow_long_description : "Use this workflow for aligning with STAR, quantifying, and testing differential expression with DESeq2 from a paired-end RNA-seq experiment."
+        workflow_title : "Single-end RNA-Seq basic differential expression"
+        workflow_short_description : "For determining differential expression from a basic single-end RNA-seq experiment"
+        workflow_long_description : "Use this workflow for aligning with STAR, quantifying, and testing differential expression with DESeq2 from a single-end RNA-seq experiment."
     }
 }
 
