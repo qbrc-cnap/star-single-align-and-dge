@@ -8,14 +8,12 @@ workflow SingleSampleRnaSeqWorkflow{
 
     # This workflow operates on a single "sample" and
     # assumes that all the sequence reads are contained in 
-    # 1 or 2 fastq files, for single- and paired-end sequencing,
-    # respectively.
+    # 1 fastq file, for single-end sequencing.
     #
     # Outputs are two count files, created from primary-filtered
     # and primary-filtered + deduplicated BAM files.
 
     File r1_fastq
-    File? r2_fastq
     File star_index_path
     File gtf
     File bed_annotations
@@ -27,7 +25,6 @@ workflow SingleSampleRnaSeqWorkflow{
     call star_align.perform_align as alignment{
         input:
             r1_fastq = r1_fastq,
-            r2_fastq = r2_fastq,
             gtf = gtf,
             star_index_path = star_index_path,
             sample_name = sample_name
