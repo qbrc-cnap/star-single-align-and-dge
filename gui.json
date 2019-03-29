@@ -25,7 +25,7 @@
                 "regex_filter": ".*",
 				"label": "Sample annotations:",
 				"choose_multiple": false,
-				"description": "Choose a sample annotation file.  This should have two columns, separated by a \"tab\" (tab-delimited).  The first has the sample names, which NEED to exactly match the columns of your count matrix.  The second column tells us which group the sample belongs to.  The names of the groups NEED to match the values you enter below for the base and experimental groups.  There should NOT be a column header."
+				"description": "Choose a sample annotation file.  This should have two columns, separated by a \"tab\" (tab-delimited).  The first has the sample names, which need to match the \"prefix\" of the fastq files you will be using.  For example, if the fastq file is named \"SampleA_R1.fastq.gz\", then the sample name that goes in this file is "\SampleA\".  The second column tells us which group the sample belongs to.  The names of the groups NEED to match the values you enter below for the base and experimental groups.  There should NOT be a column header.  An example may be found <a href=\"https://storage.cloud.google.com/cnap-test-files/deseq2/samples.tsv\">here</a>"
 			}	
 		},
 		{
