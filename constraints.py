@@ -26,4 +26,10 @@ def check_constraints(implemented_constraint, inputs_json_path):
     constraint_value = implemented_constraint.analysisunitconstraint.value
 
     # finally we can check if the constraints are satisfied:
-    return len(fastq_list) <= constraint_value
+    constraint_satisfied = len(fastq_list) <= constraint_value
+
+    message = ''
+    if not constraint_satisfied:
+        message = '%d fastq files were submitted for analysis, but only a maximum of %d are permitted.' % (len(fastq_list), constraint_value)
+
+    return (constraint_satisfied, message)
