@@ -1,4 +1,4 @@
-#Report for alignment and differential expression analysis
+Report for alignment and differential expression analysis
 ---
 
 This document discusses the steps that were performed in the analysis pipeline.  It also describes the format of the output files and some brief interpretation.  For more detailed questions about interpretation of results, consult the documentation of the various tools.

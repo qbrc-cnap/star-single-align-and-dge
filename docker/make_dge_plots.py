@@ -57,6 +57,16 @@ def get_arguments():
         help= 'The name of the output directory where the figures are placed.'
     )
     
+    parser.add_argument('-a',
+        dest='base_condition',
+        help= 'The base/control condition'
+    )
+
+    parser.add_argument('-b',
+        dest='experimental_condition',
+        help= 'The experimental condition'
+    )
+
     args = parser.parse_args()
     return vars(args)
 
@@ -89,6 +99,22 @@ def make_scatter_plot_matrix(dge_df, nc, annotations, nmax, padj_threshold, cont
     N = np.min([nmax, np.sum(dge_df['padj']<=padj_threshold)])
     if N == 0:
         print('No differentially expressed genes at the padj <= %s threshold' % padj_threshold)
+        fig, ax = plt.subplots(figsize=(9,9))
+        left, width = .25, .5
+        bottom, height = .25, .5
+        right = left + width
+        top = bottom + height
+        ax.text(0.5*(left+right), 0.5*(bottom+top), 'Zero genes passed\nsignificance at\npadj<%.2f threshold' % padj_threshold,
+                horizontalalignment='center',
+                verticalalignment='center',
+                fontsize=20, color='red',
+                transform=ax.transAxes)
+        ax.set_xticklabels([])
+        ax.set_yticklabels([])
+        plt.tight_layout()
+        fig.savefig(os.path.join(output_dir, '%s.scatter_plot.pdf' % contrast_id), bbox_inches='tight')
+        fig.savefig(os.path.join(output_dir, '%s.scatter_plot.png' % contrast_id), bbox_inches='tight')
+        plt.close()
         return
     nrows = int(np.ceil(N/ncols))
     fig, axarray = plt.subplots(nrows=nrows, ncols=ncols, figsize=(20,5*nrows))
@@ -212,7 +238,11 @@ if __name__ == '__main__':
     dg_table = pd.read_table(args['dg_table'])
     nc_table = pd.read_table(args['counts_table'], index_col=0)
     annotations = pd.read_table(args['sample_annotations'], header=None, names=['sample', 'condition'])
-
+    
+    # subset the annotations for this contrast:
+    conditions = np.array([args['base_condition'], args['experimental_condition']])
+    annotations = annotations.loc[annotations.condition.isin(conditions)]
+    
     make_scatter_plot_matrix(
         dg_table, 
         nc_table, 

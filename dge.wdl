@@ -18,6 +18,7 @@ task run_differential_expression {
     String output_deseq2 = contrast_name + "." + output_deseq2_suffix
     String normalized_counts = contrast_name + "." + normalized_counts_suffix
     String output_figures_dir = contrast_name + "_figures"
+    String edited_annotations = 'edited_annotations.tsv'
 
     command <<<
         export OWD=$(pwd)
@@ -29,13 +30,14 @@ task run_differential_expression {
             ${base_group} \
             ${experimental_group} \
             ${output_deseq2} \
-            ${normalized_counts}
+            ${normalized_counts} \
+            ${edited_annotations}
 
         # move the working dir to avoid headaches with R's source()
         cd /opt/software
         Rscript make_figures.R \
             $OWD/${output_deseq2} \
-            ${sample_annotations} \
+            ${edited_annotations} \
             $OWD/${normalized_counts} \
             $OWD/${output_figures_dir} \
             ${padj_threshold} \
@@ -48,10 +50,12 @@ task run_differential_expression {
         python3 /opt/software/make_dge_plots.py \
             -i ${output_deseq2} \
             -c ${normalized_counts} \
-            -s ${sample_annotations} \
+            -s ${edited_annotations} \
             -x ${contrast_name} \
             -o ${output_figures_dir} \
-            -p ${padj_threshold}
+            -p ${padj_threshold} \
+            -a ${base_group} \
+            -b ${experimental_group}
     >>>
 
     output {

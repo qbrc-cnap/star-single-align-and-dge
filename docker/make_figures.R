@@ -32,6 +32,10 @@ annotations <- read.table(SAMPLE_ANNOTATION_FILE,
   sep='\t',
   header = F,
   col.names = c('Sample_ID','Group'), stringsAsFactors = F)
+
+# convert any sample names that might have been changed by R:
+annotations[, 'Sample_ID'] <- make.names(annotations[, 'Sample_ID'])
+
 # have to remove any extra samples that might be in the annotation file:
 annotations = annotations[annotations$Sample_ID %in% colnames(matrix_dt),]
 rownames(annotations)=annotations$Sample
@@ -67,16 +71,25 @@ Sig.Gene=c(as.character(subset(results$dge,
                                Gene)$Gene))
 sig.nData=as.data.frame(results$norm.mtx[Sig.Gene,])
 
-## Add 1 to all values before log transformation
-sig.nData=log(sig.nData+1)
-sig.nData<-as.matrix(sig.nData)
-
 sig_heatmap_filepath = file.path(
   OUTPUT_FIGURES_DIR, 
   paste(CONTRAST_NAME, SIG_GENES_HM_SUFFIX, sep='.' )
 )
-Draw.Heatmap(sig.nData, col.panel=c("blue", "white", "red"),
-             scale="none",
-             outfile=sig_heatmap_filepath)
+
+if(dim(sig.nData)[1] > 0){
+  ## Add 1 to all values before log transformation
+  sig.nData=log(sig.nData+1)
+  sig.nData<-as.matrix(sig.nData)
+
+  Draw.Heatmap(sig.nData, col.panel=c("blue", "white", "red"),
+              scale="none",
+              outfile=sig_heatmap_filepath)
+} else {
+    png(sig_heatmap_filepath)
+    par(mar=c(0,0,0,0))
+    plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+    text(x=0.5,y=0.5, sprintf('Zero genes passed significance\n at threshold of padj<%.2f, \nabs(log-fold-change) > %$
+    dev.off()
+}
 
 

@@ -8,12 +8,16 @@ CONDITION_A<-args[3]
 CONDITION_B<-args[4]
 OUTPUT_DESEQ_FILE <- args[5] 
 OUTPUT_NORMALIZED_COUNTS_FILE <- args[6]
+EDITED_ANNOTATIONS <- args[7]
 
 # read the raw count matrix, genes as row names:
 count_data <- read.table(RAW_COUNT_MATRIX, sep='\t', header = T, row.names = 1, stringsAsFactors = F)
 
 # read the annotations
 annotations <- read.table(SAMPLE_ANNOTATION_FILE, sep='\t', header = F, col.names = c('sample','condition'), stringsAsFactors = F)
+
+# in case the samples had 'strange' names that R had to convert, alter the sample names in the annotation dataframe:
+annotations[, 'sample'] <- make.names(annotations[, 'sample'])
 
 # Keep only the rows that concern our contrast of interest
 # Could keep it all together, but this is more explicit
@@ -35,6 +39,8 @@ annotations <- annotations[-1]
 # Need to set the condition as a factor since it's going to be used as a design matrix
 annotations$condition <- as.factor(annotations$condition)
 
+# in case the names were changed by R, write a new sample annotation file so downstream processes don't get thrown off by the change:
+write.table(annotations, file=EDITED_ANNOTATIONS, sep='\t', col.names=F, quote=F)
 
 dds <- DESeqDataSetFromMatrix(countData = count_data,
 							  colData = annotations,
