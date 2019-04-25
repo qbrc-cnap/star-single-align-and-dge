@@ -27,6 +27,9 @@ annotations <- read.table(SAMPLE_ANNOTATION_FILE,
     col.names = c('Sample_ID','Group'),
     stringsAsFactors = F)
 
+# in case the names were not legal for R, change the annotations 
+annotations[,'Sample_ID'] = make.names(annotations[,'Sample_ID'])
+
 # subset to keep only the samples in the count table.  This is important if the annotation
 # file has more samples than the count matrix:
 count_mtx_cols = colnames(count_data)
