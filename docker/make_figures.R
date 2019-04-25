@@ -88,7 +88,7 @@ if(dim(sig.nData)[1] > 0){
     png(sig_heatmap_filepath)
     par(mar=c(0,0,0,0))
     plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
-    text(x=0.5,y=0.5, sprintf('Zero genes passed significance\n at threshold of padj<%.2f, \nabs(log-fold-change) > %$
+    text(x=0.5,y=0.5, sprintf('Zero genes passed significance\n at threshold of padj<%.2f, \nabs(log-fold-change) > %.2f',thresholds$padj,thresholds$log2FoldChange), cex = 1.6, col = "black")
     dev.off()
 }
 

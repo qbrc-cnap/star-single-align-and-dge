@@ -31,13 +31,13 @@ task run_differential_expression {
             ${experimental_group} \
             ${output_deseq2} \
             ${normalized_counts} \
-            ${edited_annotations}
+            $OWD/${edited_annotations}
 
         # move the working dir to avoid headaches with R's source()
         cd /opt/software
         Rscript make_figures.R \
             $OWD/${output_deseq2} \
-            ${edited_annotations} \
+            $OWD/${edited_annotations} \
             $OWD/${normalized_counts} \
             $OWD/${output_figures_dir} \
             ${padj_threshold} \
@@ -50,7 +50,7 @@ task run_differential_expression {
         python3 /opt/software/make_dge_plots.py \
             -i ${output_deseq2} \
             -c ${normalized_counts} \
-            -s ${edited_annotations} \
+            -s $OWD/${edited_annotations} \
             -x ${contrast_name} \
             -o ${output_figures_dir} \
             -p ${padj_threshold} \
