@@ -42,6 +42,7 @@ task picard_deduplicate {
     }
 
     runtime {
+        zones: "us-east4-c"
         docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.1"
         cpu: 8
         memory: "32 G"

@@ -55,6 +55,7 @@ task count_reads {
     }
 
     runtime {
+        zones: "us-east4-c"
         docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.1"
         cpu: 8
         memory: "12 G"
@@ -81,6 +82,7 @@ task concatenate {
     }
 
     runtime {
+        zones: "us-east4-c"
         docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.1"
         cpu: 2
         memory: "4 G"
