@@ -40,7 +40,6 @@ task infer_experiment {
     }
 
     runtime {
-        zones: "us-east4-c"
         docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.1"
         cpu: 2
         memory: "8 G"
@@ -65,7 +64,6 @@ task qc_process {
     }
 
     runtime {
-        zones: "us-east4-c"
         docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.1"
         cpu: 2
         memory: "8 G"

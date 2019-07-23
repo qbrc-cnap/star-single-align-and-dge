@@ -115,6 +115,9 @@ ADD check_fastq.py /opt/software/precheck/
 ADD generate_report.py /usr/local/bin/
 RUN chmod +x /usr/local/bin/generate_report.py
 
+# Add the script for reformatting the annotations:
+ADD reformat_annotations.py /opt/software/
+
 # Add the report template and styling:
 RUN mkdir /opt/report
 ADD report.md /opt/report/

@@ -36,6 +36,11 @@ workflow SingleEndRnaSeqAndDgeWorkflow{
     String top_genes_heatmap_suffix = 'top_genes_heatmap.png'
     String sig_genes_heatmap_suffix = 'significant_genes_heatmap.png'
 
+    call reformat_annotations {
+        input:
+            sample_annotations = sample_annotations
+    }
+
     scatter(fastq in r1_files){
 
         call fastqc.run_fastqc as fastqc_for_read1 {
@@ -74,7 +79,7 @@ workflow SingleEndRnaSeqAndDgeWorkflow{
 
     call figures.create_contrast_independent_figures as make_figs {
         input:
-            sample_annotations = sample_annotations,
+            sample_annotations = reformat_annotations.reformatted_annotations,
             raw_count_matrix = merge_primary_counts.count_matrix,
             pca_filename = pca_filename,
             hc_tree_filename = hc_tree_filename      
@@ -83,7 +88,7 @@ workflow SingleEndRnaSeqAndDgeWorkflow{
     scatter(item in contrast_pairs){
         call dge.run_differential_expression as run_dge {
             input:
-                sample_annotations = sample_annotations,
+                sample_annotations = reformat_annotations.reformatted_annotations,
                 raw_count_matrix = merge_primary_counts.count_matrix,
                 base_group = item.left,
                 experimental_group = item.right,
@@ -103,7 +108,7 @@ workflow SingleEndRnaSeqAndDgeWorkflow{
             genome = genome,
             git_commit_hash = git_commit_hash,
             git_repo_url = git_repo_url,
-            annotations = sample_annotations,
+            annotations = reformat_annotations.reformatted_annotations,
             deseq2_outputs = run_dge.dge_table,
             output_deseq2_suffix = output_deseq2_suffix,
             normalized_counts_suffix = normalized_counts_suffix,
@@ -145,6 +150,30 @@ workflow SingleEndRnaSeqAndDgeWorkflow{
         workflow_title : "Single-end RNA-Seq basic differential expression"
         workflow_short_description : "For determining differential expression from a basic single-end RNA-seq experiment"
         workflow_long_description : "Use this workflow for aligning with STAR, quantifying, and testing differential expression with DESeq2 from a single-end RNA-seq experiment."
+    }
+}
+
+
+task reformat_annotations {
+
+    File sample_annotations
+    String output_file = "reformatted_annotations.tsv"
+    Int disk_size = 10
+    
+    command {
+        python3 /opt/software/reformat_annotations.py -a ${sample_annotations} -o ${output_file}
+    }
+
+    output {
+        File reformatted_annotations = "${output_file}"
+    }
+
+    runtime {
+        docker: "docker.io/blawney/star_rnaseq:v0.0.1"
+        cpu: 2
+        memory: "2 G"
+        disks: "local-disk " + disk_size + " HDD"
+        preemptible: 0
     }
 }
 
@@ -211,7 +240,6 @@ task zip_results {
     }
 
     runtime {
-        zones: "us-east4-c"
         docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.1"
         cpu: 2
         memory: "6 G"

@@ -42,12 +42,19 @@ def read_annotations(annotation_filepath):
 
 
     # now that we have successfully parsed something.  
-    if df.shape[1] != 2:
+    if df.shape[1] < 2:
         return (None, 
                 ['The file extension of the annotation file was %s, but the' 
                 ' file reader parsed %d column(s).  Please check your annotation file.  Could it have the wrong file extension?' % (file_extension, df.shape[1])])
 
-    # check for NAs:
+    # in case the client put extra columns that are blank, just keep the first two
+    if df.shape[1] > 2:
+        df = df.ix[:,[0,1]]
+
+    # drop any completely empty rows:
+    df = df.dropna(how='all')
+
+    # check for NAs in partially filled rows:
     if df.dropna().shape != df.shape:
         return (None, ['There were missing inputs in the annotation table.  Look for blank cells in particular.'])
 
