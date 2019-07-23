@@ -1,4 +1,4 @@
-def map_inputs(user, unmapped_data, id_list):
+def map_inputs(user, all_data, data_name, id_list):
     '''
     This maps the array of group identifiers from the front-end
     and places them in an array
@@ -9,7 +9,7 @@ def map_inputs(user, unmapped_data, id_list):
   
     id_list has the names of the WDL inputs.
     '''
-
+    unmapped_data = all_data[data_name]
     col_num_to_id_mapping = dict(zip(range(len(id_list)), id_list))
 
     d = {}

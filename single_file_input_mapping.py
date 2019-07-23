@@ -1,7 +1,7 @@
 from base.models import Resource
 import os
 
-def map_inputs(user, unmapped_data, id_list):
+def map_inputs(user, all_data, data_name, id_list):
     '''
     `user` is a User instance (or subclass).  This gives us
     the option of applying user-specific logic to the mapping.
@@ -21,6 +21,7 @@ def map_inputs(user, unmapped_data, id_list):
     matches the order in gui.json 
 
     '''
+    unmapped_data = all_data[data_name]
     resource_pk = unmapped_data
     r = Resource.objects.get(pk=resource_pk)
     if (r.owner == user) or (user.is_staff):
