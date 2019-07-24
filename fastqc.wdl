@@ -16,7 +16,7 @@ task run_fastqc {
 
     String bn = basename(fastq)
     String target_zip = sub(bn, "\\.fastq\\.gz", "_fastqc.zip")
-    Int disk_size = 20
+    Int disk_size = 50
 
     command {
         fastqc ${fastq} -o .

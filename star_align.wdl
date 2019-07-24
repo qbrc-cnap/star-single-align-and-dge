@@ -32,7 +32,7 @@ task perform_align{
     String sample_name
 
     # Default disk size in GB
-    Int disk_size = 300
+    Int disk_size = 500
 
     command {
         set -euxo pipefail

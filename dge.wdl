@@ -12,7 +12,7 @@ task run_differential_expression {
     String top_genes_heatmap_suffix
     String sig_genes_heatmap_suffix
 
-    Int disk_size = 10
+    Int disk_size = 30
 
     String contrast_name = experimental_group + versus_sep + base_group
     String output_deseq2 = contrast_name + "." + output_deseq2_suffix

@@ -27,7 +27,7 @@ task samtools_index {
     String bam_index_name = basename(input_bam) + ".bai"
 
 
-    Int disk_size = 100
+    Int disk_size = 300
 
     command {
         samtools index ${input_bam} "${bam_index_name}"
@@ -55,7 +55,7 @@ task samtools_primary_filter {
 
     String output_bam_name = sample_name + ".primary_filtered.bam"
 
-    Int disk_size = 100
+    Int disk_size = 300
 
     command {
         samtools view -b -F 0x0100 ${input_bam} > "${output_bam_name}"
