@@ -53,11 +53,11 @@ ENV PICARD_JAR=/opt/software/picard/picard.jar
 
 # subRead featureCounts
 RUN cd /opt/software && \
-  wget https://sourceforge.net/projects/subread/files/subread-1.6.3/subread-1.6.3-source.tar.gz && \
-  tar -xzf subread-1.6.3-source.tar.gz && \
-  cd subread-1.6.3-source/src && \
+  wget https://sourceforge.net/projects/subread/files/subread-2.0.0/subread-2.0.0-source.tar.gz && \
+  tar -xzf subread-2.0.0-source.tar.gz && \
+  cd subread-2.0.0-source/src && \
   make -f Makefile.Linux
-ENV PATH="/opt/software/subread-1.6.3-source/bin:${PATH}"
+ENV PATH="/opt/software/subread-2.0.0-source/bin:${PATH}"
 
 # Install libStatGen and fastQValidator:
 RUN cd /opt/software && \

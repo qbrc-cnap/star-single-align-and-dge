@@ -59,7 +59,7 @@ task perform_align{
     }
 
     runtime {
-        docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.1"
+        docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.2"
         cpu: 8
         memory: "40 G"
         disks: "local-disk " + disk_size + " HDD"

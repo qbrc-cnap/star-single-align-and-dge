@@ -40,7 +40,7 @@ task infer_experiment {
     }
 
     runtime {
-        docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.1"
+        docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.2"
         cpu: 2
         memory: "8 G"
         disks: "local-disk " + disk_size + " HDD"
@@ -64,7 +64,7 @@ task qc_process {
     }
 
     runtime {
-        docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.1"
+        docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.2"
         cpu: 2
         memory: "8 G"
         disks: "local-disk " + disk_size + " HDD"

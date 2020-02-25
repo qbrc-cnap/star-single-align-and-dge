@@ -42,7 +42,7 @@ task picard_deduplicate {
     }
 
     runtime {
-        docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.1"
+        docker: "docker.io/blawney/star_single_end_rnaseq:v0.0.2"
         cpu: 8
         memory: "32 G"
         disks: "local-disk " + disk_size + " HDD"
