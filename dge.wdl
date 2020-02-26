@@ -21,6 +21,9 @@ task run_differential_expression {
     String edited_annotations = 'edited_annotations.tsv'
 
     command <<<
+
+        source activate r36
+
         export OWD=$(pwd)
         mkdir ${output_figures_dir}
 
@@ -46,8 +49,9 @@ task run_differential_expression {
             ${top_genes_heatmap_suffix} \
             ${sig_genes_heatmap_suffix}
 
+        conda deactivate
         cd $OWD
-        python3 /opt/software/make_dge_plots.py \
+        /usr/bin/python3 /opt/software/make_dge_plots.py \
             -i ${output_deseq2} \
             -c ${normalized_counts} \
             -s $OWD/${edited_annotations} \

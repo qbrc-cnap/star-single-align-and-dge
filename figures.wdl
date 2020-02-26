@@ -8,6 +8,7 @@ task create_contrast_independent_figures {
     Int disk_size = 10
 
     command <<<
+        source activate r36
         export OWD=$(pwd)
         cd /opt/software/
         Rscript contrast_independent_figures.R \

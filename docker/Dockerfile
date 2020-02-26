@@ -9,11 +9,11 @@ RUN apt-get update && \
     libbz2-dev \
     liblzma-dev \
     libxml2-dev \
+    libopenblas-dev \
     zip \
     python3-dev \
     python3-pip \
     default-jre \
-    r-base \
     pandoc \
     git
 
@@ -70,9 +70,26 @@ RUN cd /opt/software && \
   make && \
   make install
 
+
+# Get the miniconda installer script and run it in silent mode:
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /opt/software/miniconda.sh && \
+  bash /opt/software/miniconda.sh -b -p /opt/software/miniconda
+ENV PATH="/opt/software/miniconda/bin:${PATH}"
+
 # Install DESeq2 and dependencies:
-RUN R -e "source('http://bioconductor.org/biocLite.R'); biocLite('RCurl'); biocLite('XML'); biocLite('DESeq2')"
-RUN R -e "install.packages('reshape2', repos = 'http://cran.us.r-project.org'); install.packages('tidyverse', repos = 'http://cran.us.r-project.org'); install.packages('ggdendro', repos = 'http://cran.us.r-project.org'); install.packages('gplots', repos = 'http://cran.us.r-project.org'); install.packages('ggplot2', repos = 'http://cran.us.r-project.org');"
+RUN conda create --name r36 r=3.6.0
+SHELL ["conda", "run", "-n", "r36", "/bin/bash", "-c"]
+RUN conda config --add channels defaults && \
+  conda config --add channels bioconda && \
+  conda config --add channels conda-forge && \
+  conda install -y bioconductor-deseq2 && \
+  conda install -y -c r r-ggplot2 && \
+  conda install -y -c r r-gplots && \
+  conda install -y -c r r-reshape2 && \
+  conda install -y -c r r-tidyverse && \
+  conda install -y -c r r-ggdendro
+
+SHELL ["/bin/sh", "-c"]
 ADD deseq2.R /opt/software/
 ADD make_dge_plots.py /opt/software/
 ADD make_figures.R /opt/software/
@@ -83,6 +100,8 @@ ADD contrast_independent_figures.R /opt/software/
 # Install some Python3 libraries:
 ADD requirements.txt /opt/software/
 RUN pip3 install -r /opt/software/requirements.txt
+
+RUN pip3 install Cython
 
 # Now install RSeQC:
 RUN pip3 install RSeQC

@@ -161,7 +161,7 @@ task reformat_annotations {
     Int disk_size = 10
     
     command {
-        python3 /opt/software/reformat_annotations.py -a ${sample_annotations} -o ${output_file}
+        /usr/bin/python3 /opt/software/reformat_annotations.py -a ${sample_annotations} -o ${output_file}
     }
 
     output {
