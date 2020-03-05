@@ -26,11 +26,13 @@ task picard_deduplicate {
     Int disk_size = 100
 
     command {
+        mkdir tmp
+        export TMPDIR=$(pwd)/tmp
         java -Xmx28g -jar $PICARD_JAR MarkDuplicates \
 	      INPUT=${input_bam} \
 	      OUTPUT="${output_bam_name}" \
 	      ASSUME_SORTED=TRUE \
-	      TMP_DIR=/tmp \
+	      TMP_DIR=$TMPDIR \
 	      REMOVE_DUPLICATES=TRUE \
 	      METRICS_FILE="${output_bam_name}".metrics.out \
           VALIDATION_STRINGENCY=LENIENT

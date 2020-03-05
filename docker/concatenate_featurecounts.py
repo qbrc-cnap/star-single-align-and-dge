@@ -28,7 +28,7 @@ def cat_tables(input_files):
     '''
     count_matrix = pd.DataFrame()
     for f in input_files:
-        samplename = os.path.basename(f).split('.')[0]
+        samplename = '.'.join(os.path.basename(f).split('.')[:-3])
         df = pd.read_csv(f, sep='\t', comment='#', index_col=0)
         s = df.iloc[:,-1]
         s.name = samplename
